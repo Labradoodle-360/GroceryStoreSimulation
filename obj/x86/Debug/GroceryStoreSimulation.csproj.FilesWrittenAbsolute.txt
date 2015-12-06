@@ -1,0 +1,5 @@
+/Users/matthew/Projects/GroceryStoreSimulation/GroceryStoreSimulation/obj/x86/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
+/Users/matthew/Projects/GroceryStoreSimulation/GroceryStoreSimulation/bin/Debug/GroceryStoreSimulation.exe.mdb
+/Users/matthew/Projects/GroceryStoreSimulation/GroceryStoreSimulation/bin/Debug/GroceryStoreSimulation.exe
+/Users/matthew/Projects/GroceryStoreSimulation/GroceryStoreSimulation/obj/x86/Debug/GroceryStoreSimulation.exe
+/Users/matthew/Projects/GroceryStoreSimulation/GroceryStoreSimulation/obj/x86/Debug/GroceryStoreSimulation.exe.mdb
