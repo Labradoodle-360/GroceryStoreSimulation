@@ -24,6 +24,7 @@ namespace GroceryStoreSimulation
 		public Dictionary<int, int> PeopleInStore = new Dictionary<int, int>();
 
 		public Dictionary<int, List<int>> arrivalTimeToPerson = new Dictionary<int, List<int>>();
+		public Dictionary<int, List<int>> enterLineTimeToPerson = new Dictionary<int, List<int>>();
 
 		public Store()
 		{
@@ -113,6 +114,14 @@ namespace GroceryStoreSimulation
 						arrivalTimeToPerson.Add (thisPerson.arriveMinute, thisArrivalTimeList);
 					}
 					arrivalTimeToPerson [thisPerson.arriveMinute].Add(iteration);
+
+					int tempAdditiveTime = thisPerson.arriveMinute + thisPerson.shoppingTime;
+					if (!enterLineTimeToPerson.ContainsKey(tempAdditiveTime))
+					{
+						List<int> thisEnterLineTimeList = new List<int> ();
+						arrivalTimeToPerson.Add (tempAdditiveTime, thisArrivalTimeList);
+					}
+					enterLineTimeToPerson [tempAdditiveTime].Add(iteration);
 
 					Console.WriteLine ("Person:");
 					Console.WriteLine (thisPerson.arriveMinute);
