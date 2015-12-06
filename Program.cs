@@ -26,9 +26,16 @@ namespace GroceryStoreSimulation
 		public Dictionary<int, List<int>> arrivalTimeToPerson = new Dictionary<int, List<int>>();
 		public Dictionary<int, List<int>> enterLineTimeToPerson = new Dictionary<int, List<int>>();
 
+		public System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer ();
+		public int currentTicks = 0;
+		public int totalTicks   = 60;
+
 		public Store()
 		{
 			simulationDataAdded = false;
+
+			timer.Interval = 1 * 1000;
+			timer.Tick += new EventHandler (TimerTick);
 
 			MenuItem importSimulationData = new MenuItem ("Import Simulation Data");
 			importSimulationData.Click += importSimulationDataClick;
@@ -46,6 +53,26 @@ namespace GroceryStoreSimulation
 			Menu = bar;
 		}
 
+		void TimerTick(object sender, EventArgs e)
+		{
+			Console.WriteLine ("Tick: " + currentTicks);
+			if (currentTicks == (totalTicks -1))
+			{
+				timer.Stop ();
+				Console.WriteLine ("Simulation Complete!");
+			}
+
+			if (arrivalTimeToPerson.ContainsKey(currentTicks))
+			{
+				arrivalTimeToPerson [currentTicks].ForEach (x => Console.WriteLine ("--Person Number " + (x + 1) + " has entered the store."));
+			}
+			if (enterLineTimeToPerson.ContainsKey(currentTicks))
+			{
+				enterLineTimeToPerson [currentTicks].ForEach (x => Console.WriteLine ("--Person Number " + (x + 1) + " has entered a shopping line."));
+			}
+			++currentTicks;
+		}
+
 		void StartSimulatorClick(object sender, EventArgs e)
 		{
 			if (simulationDataAdded == false)
@@ -55,6 +82,7 @@ namespace GroceryStoreSimulation
 				return;
 			}
 			Console.WriteLine ("Simulation Started");
+			timer.Start ();
 		}
 
 		void importSimulationDataClick(object sender, EventArgs e)
@@ -119,19 +147,21 @@ namespace GroceryStoreSimulation
 					if (!enterLineTimeToPerson.ContainsKey(tempAdditiveTime))
 					{
 						List<int> thisEnterLineTimeList = new List<int> ();
-						arrivalTimeToPerson.Add (tempAdditiveTime, thisArrivalTimeList);
+						enterLineTimeToPerson.Add (tempAdditiveTime, thisEnterLineTimeList);
 					}
 					enterLineTimeToPerson [tempAdditiveTime].Add(iteration);
 
 					Console.WriteLine ("Person:");
-					Console.WriteLine (thisPerson.arriveMinute);
-					Console.WriteLine (thisPerson.shoppingTime);
-					Console.WriteLine (thisPerson.amountSpent);
+					Console.WriteLine ("Arrive Minute: " + thisPerson.arriveMinute);
+					Console.WriteLine ("Shopping Time: " + thisPerson.shoppingTime);
+					Console.WriteLine ("Amount Spent: " + thisPerson.amountSpent);
+					Console.WriteLine ("Enter Line Time: " + tempAdditiveTime);
 					Console.WriteLine ("------------------------");
 				}
 
-				Console.WriteLine (arrivalTimeToPerson.Count);
-				arrivalTimeToPerson [5].ForEach (x => Console.WriteLine (People[x].amountSpent));
+				// TEST: arrivalTimeToPerson [12].ForEach (x => Console.WriteLine (People[x].amountSpent));
+				// TEST: enterLineTimeToPerson[21].ForEach(x => Console.WriteLine(x));
+
 				/*foreach (var value in arrivalTimeToPerson.Values)
 				{
 					value.ForEach (x => Console.WriteLine ("Customer " + x + " enters the store at..."));
