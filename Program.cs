@@ -17,9 +17,12 @@ namespace GroceryStoreSimulation
 	class Store : Form
 	{
 		public bool simulationDataAdded;
+		public const int totalCheckoutLines = 4;
 		public string title = "Grocery Store Simulation";
 
 		public List<Person> People = new List<Person>();
+
+		public List<CheckoutLine> CheckoutLines = new List<CheckoutLine>();
 
 		public Dictionary<int, int> PeopleInStore = new Dictionary<int, int>();
 
@@ -29,6 +32,8 @@ namespace GroceryStoreSimulation
 		public System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer ();
 		public int currentTicks = 0;
 		public int totalTicks   = 60;
+
+		public Random randomGenerator = new Random();
 
 		public Store()
 		{
@@ -51,6 +56,12 @@ namespace GroceryStoreSimulation
 			bar.MenuItems.Add (file);
 
 			Menu = bar;
+
+			//-- Create our checkout lines.
+			for (int iteration = 0; iteration < Store.totalCheckoutLines; ++iteration)
+			{
+				CheckoutLines.Add (new CheckoutLine ());
+			}
 		}
 
 		void TimerTick(object sender, EventArgs e)
@@ -69,6 +80,9 @@ namespace GroceryStoreSimulation
 			if (enterLineTimeToPerson.ContainsKey(currentTicks))
 			{
 				enterLineTimeToPerson [currentTicks].ForEach (x => Console.WriteLine ("--Person Number " + (x + 1) + " has entered a shopping line."));
+				int tempRandomCheckoutLine = randomGenerator.Next(Store.totalCheckoutLines - 1);
+				Console.WriteLine ("--Person was put in Checkout Line number: " + (tempRandomCheckoutLine + 1));
+
 			}
 			++currentTicks;
 		}
